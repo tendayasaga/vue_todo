@@ -18,7 +18,7 @@
         <li v-for="todo in filteredTodos" :key="todo.id" :class="{ completed: todo.completed }" class="todo-item">
           <label class="todo-label">
             <!-- 完了済みタスクのチェックボックス -->
-            <input type="checkbox" v-model="todo.completed"/>
+            <input type="checkbox" v-model="todo.completed" @change="toggleCompletion(todo)" />
             <!-- タスク名とカテゴリ名を表示 -->
             <span>{{ todo.todo }} - {{ todo.category.category }}</span>
             <!-- 編集ボタン -->
@@ -150,6 +150,13 @@ export default {
     // ログアウトしてログイン画面にリダイレクト
     logout() {
       this.$router.push({ name: 'login' });
+    },
+    async toggleCompletion(todo) {
+        try {
+            await ToDoService.updateCompletionStatus(todo.id, todo.completed);
+        } catch (error) {
+            console.error('Error updating completion status:', error);
+        }
     }
   }
 };

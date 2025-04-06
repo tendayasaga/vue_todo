@@ -36,6 +36,13 @@ class ToDoService {
     delete(id) {
         return http.delete(`/todos/${id}`);
     }
+    
+    //チェック状態を更新
+    updateCompletionStatus(id, completed) {
+        return http.put(`/todos/${id}/completion`, {
+            completed: completed
+        });
+    }
 }
 
 export default new ToDoService();
